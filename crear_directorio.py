@@ -1,20 +1,13 @@
 import boto3
 
 def lambda_handler(event, context):
-    # Entrada (json)
-    nombre_bucket     = event['body']['bucket']
-    nombre_directorio = event['body']['directorio']
-
-    # Proceso
     s3 = boto3.client('s3')
-    s3.put_object(
-        Bucket=nombre_bucket,
-        Key=nombre_directorio,
-        Body=b''
-    )
+    bucket = event['body']['bucket']
+    directorio = event['body']['directorio']
+
+    s3.put_object(Bucket=bucket, Key=f"{directorio}/")
 
     return {
         'statusCode': 200,
-        'bucket':     nombre_bucket,
-        'directorio': nombre_directorio,
+        'mensaje': f'Directorio {directorio} creado en bucket {bucket}'
     }
